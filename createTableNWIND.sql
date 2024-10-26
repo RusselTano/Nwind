@@ -95,6 +95,21 @@ CREATE TABLE Orders(
         CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800)
 );
 
+-- OrdersDetails
+
+CREATE TABLE OrdersDetails(
+    OrderID NUMBER
+        CONSTRAINT OrdersDetails_OrderID_fk REFERENCES Orders(OrdersID),
+    ProductID NUMBER
+        CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Product(ProductID),
+    UnitPrice NUMBER
+        CONSTRAINT OrdersDetails_UnitPrice_nn NOT NULL,
+        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5),
+    Quantity NUMBER
+        CONSTRAINT OrdersDetails_Quantity_chk CHECK(Quantity > 0),
+    Discount NUMBER
+        CONSTRAINT OrdersDetails_Discount_chk CHECK(Discount >= 5 AND Discount <= 75)
+);
 
 
 
