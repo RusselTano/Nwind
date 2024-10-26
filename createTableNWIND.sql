@@ -143,7 +143,19 @@ CREATE TABLE Products(
         CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
 );
 
+-- Shippers
 
+CREATE SEQUENCE ShipperID_seq
+    START WITH 10
+    INCREMENT BY 10
+    MAXVALUE 2000;
+
+CREATE TABLE Shippers(
+    ShipperID NUMBER 
+        CONSTRAINT Shippers_pk PRIMARY KEY,
+    CompanyName VARCHAR2(60)
+        CONSTRAINT shippers_CompanyName_nn NOT NULL
+);
 
 
 
