@@ -13,3 +13,22 @@ CREATE TABLE Categories(
         CONSTRAINT Categories_CategoryName_nn NOT NULL
 );
 
+-- Customers
+
+CREATE SEQUENCE CustomerID_seq
+    START WITH 100
+    INCREMENT BY 5
+    MAXVALUE 5000;
+
+CREATE TABLE Customers(
+    CustomerID NUMBER
+        CONSTRAINT  Customers_pk PRIMARY KEY,
+    CustomerName VARCHAR2(75)
+        CONSTRAINT Customers_CusTomerName_nn NOT NULL,
+    City VARCHAR2(60)
+        CONSTRAINT Customers_City_nn NOT NULL,
+    PostalCode VARCHAR2(7)
+        CONSTRAINT Customers_PostalCode_nn NOT NULL,
+    Country VARCHAR2(60)
+        CONSTRAINT Customers_Country_nn NOT NULL
+);
