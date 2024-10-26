@@ -65,3 +65,48 @@ CREATE TABLE Employees(
         CONSTRAINT Employees_ReportsTo_fk FOREIGN KEY(ReportsTo)
         REFERENCES Employees(EmployeeID)
 );
+
+-- Orders
+
+CREATE SEQUENCE OrderID_seq
+    START WITH 1
+    MAXVALUE 99999;
+
+CREATE TABLE Orders(
+    OderID NUMBER 
+        CONSTRAINT Orders_pk PRIMARY KEY,
+    CustomerID NUMBER
+        CONSTRAINT Orders_CustomersID_nn NOT NULL,
+        CONSTRAINT Orders_CustomerID_fk REFERENCES Customers(CustomerID),
+    EmployeeID NUMBER
+        CONSTRAINT Orders_EmployeeID_nn NOT NULL,
+        CONSTRAINT  Orders_EmployeeID_fk REFERENCES Employees(EmployeeID),
+    OrderDate DATE
+        CONSTRAINT Orders_OrderDate_nn NOT NULL,
+        DEFAULT sysdate,
+    RequiredDate DATE
+        CONSTRAINT Orders_RequiredDate_chk CHECK(RequiredDate > OrderDate),
+    ShippedDate DATE
+        CONSTRAINT Orders_ShippedDate_chk CHECK(ShippedDate < RequiredDate),
+    ShipVia NUMBER
+        CONSTRAINT Orders_ShipVia_nn NOT NULL,
+        CONSTRAINT Orders_ShipVia_fk REFERENCES Shippers(ShipperID),
+    Freight NUMBER
+        CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800)
+);
+
+
+
+
+
+
+
+
+
+//Question
+/*
+a quoi sert le -> ON DELETE CASCADE et quand l'utilise
+Le casing des table et des champs
+cle primaire avec reference et sans reference
+Table Orders ne fonctionne pas
+*/
