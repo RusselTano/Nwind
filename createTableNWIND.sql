@@ -111,7 +111,37 @@ CREATE TABLE OrdersDetails(
         CONSTRAINT OrdersDetails_Discount_chk CHECK(Discount >= 5 AND Discount <= 75)
 );
 
+-- Products
 
+CREATE SEQUENCE productID
+    START WITH 10
+    INCREMENT BY 5
+    MAXVALUE 10000;
+
+CREATE TABLE Products(
+    ProductID NUMBER
+        CONSTRAINT Products_pk PRIMARY KEY,
+    ProductName VARCHAR2(80)
+        CONSTRAINT Products_ProductName_nn NOT NULL,
+    CategoryID NUMBER
+        CONSTRAINT Products_CategoryID_nn NOT NULL,
+        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID),
+    SupplierID NUMBER
+        CONSTRAINT Products_SupplierID_nn NOT NULL,
+        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID),
+    QuantityPerUnit VARCHAR2(75),
+    UnitPrice NUMBER
+        CONSTRAINT Products_UnitPrice_nn NOT NULL,
+        CONSTRAINT Products_UnitPrice_chk CHECK(UnitPrice > 0.10),
+    UnitsInStock NUMBER
+        CONSTRAINT Products_UnitsInStock_nn NOT NULL,
+        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel),
+    ReorderLevel NUMBER 
+        DEFAULT 5
+        CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
+    Discontinued CHAR(1)
+        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
+);
 
 
 
