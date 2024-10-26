@@ -158,6 +158,27 @@ CREATE TABLE Shippers(
 );
 
 
+-- Suppliers
+
+CREATE SEQUENCE SupplierID_sq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 400;
+
+CREATE TABLE Suppliers(
+    SupplierID NUMBER
+        CONSTRAINT Suppliers_fk PRIMARY KEY,
+    SupplierName VARCHAR2(60)
+        CONSTRAINT Suppliers_SupplierName_nn NOT NULL,
+    City VARCHAR2(60)
+        CONSTRAINT Suppliers_City_nn NOT NULL,
+    PostalCode VARCHAR(7)
+        CONSTRAINT Suppliers_PostalCode_nn NOT NULL,
+    Country VARCHAR2(60)
+        CONSTRAINT Suppliers_Country_chk CHECK(Country IN ('Canada','France','Chine')),
+    HomePage VARCHAR2(120)
+);
+
 
 
 //Question
