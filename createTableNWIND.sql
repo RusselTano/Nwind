@@ -13,6 +13,9 @@ CREATE TABLE Categories(
         CONSTRAINT Categories_CategoryName_nn NOT NULL
 );
 
+DROP TABLE Categories;
+DROP SEQUENCE CategoriesID_seq;
+
 -- Customers
 
 CREATE SEQUENCE CustomerID_seq
@@ -32,6 +35,9 @@ CREATE TABLE Customers(
     Country VARCHAR2(60)
         CONSTRAINT Customers_Country_nn NOT NULL
 );
+
+DROP TABLE Customers;
+DROP SEQUENCE CustomerID_seq;
 
 -- Employees
 
@@ -66,6 +72,8 @@ CREATE TABLE Employees(
         REFERENCES Employees(EmployeeID)
 );
 
+DROP TABLE Employees;
+DROP SEQUENCE EmployeeID_seq;
 -- Orders
 
 CREATE SEQUENCE OrderID_seq
@@ -95,6 +103,9 @@ CREATE TABLE Orders(
         CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800)
 );
 
+DROP TABLE Orders;
+DROP SEQUENCE OrderID_seq;
+
 -- OrdersDetails
 
 CREATE TABLE OrdersDetails(
@@ -111,9 +122,11 @@ CREATE TABLE OrdersDetails(
         CONSTRAINT OrdersDetails_Discount_chk CHECK(Discount >= 5 AND Discount <= 75)
 );
 
+DROP TABLE OrdersDetails;
+
 -- Products
 
-CREATE SEQUENCE productID
+CREATE SEQUENCE productID_seq
     START WITH 10
     INCREMENT BY 5
     MAXVALUE 10000;
@@ -143,6 +156,9 @@ CREATE TABLE Products(
         CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
 );
 
+DROP TABLE Products;
+DROP SEQUENCE productID_seq;
+
 -- Shippers
 
 CREATE SEQUENCE ShipperID_seq
@@ -157,6 +173,8 @@ CREATE TABLE Shippers(
         CONSTRAINT shippers_CompanyName_nn NOT NULL
 );
 
+DROP TABLE Shippers;
+DROP SEQUENCE ShipperID_seq;
 
 -- Suppliers
 
@@ -179,6 +197,26 @@ CREATE TABLE Suppliers(
     HomePage VARCHAR2(120)
 );
 
+DROP TABLE Suppliers;
+DROP SEQUENCE SupplierID_sq;
+
+
+/*
+
+Partie 1:
+? Avec l'aide des TIC (table instance chart) fournis, vous devez créer un script qui va créer
+les 8 tables dans le bon ordre. Le script devra être dans un fichier nommé
+createTableNWIND.sql
+? Écrire un script qui va détuire les 8 tables dans le bon ordre. Le script devra être dans un
+fichier nommé dropTableNWIND.sql
+
+Partie 2:
+? Écrire un script afin de créer les différentes séquences. Le script devra être dans un
+fichier nommé createSeqNwind.sql
+? Écrire un script qui va détruire les séquences. Le script devra être dans un fichier nommé
+dropSeqNwind.sql
+
+*/
 
 
 //Question
