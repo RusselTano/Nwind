@@ -124,23 +124,24 @@ CREATE TABLE Products(
     ProductName VARCHAR2(80)
         CONSTRAINT Products_ProductName_nn NOT NULL,
     CategoryID NUMBER
+        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID)
         CONSTRAINT Products_CategoryID_nn NOT NULL,
-        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID),
     SupplierID NUMBER
+        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID)
         CONSTRAINT Products_SupplierID_nn NOT NULL,
-        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID),
     QuantityPerUnit VARCHAR2(75),
     UnitPrice NUMBER
-        CONSTRAINT Products_UnitPrice_nn NOT NULL,
+        CONSTRAINT Products_UnitPrice_nn NOT NULL
         CONSTRAINT Products_UnitPrice_chk CHECK(UnitPrice > 0.10),
     UnitsInStock NUMBER
         CONSTRAINT Products_UnitsInStock_nn NOT NULL,
-        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel),
     ReorderLevel NUMBER 
         DEFAULT 5
         CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
     Discontinued CHAR(1)
-        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
+        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N')),
+        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel)
+
 );
 
 -- Shippers
@@ -178,6 +179,30 @@ CREATE TABLE Suppliers(
         CONSTRAINT Suppliers_Country_chk CHECK(Country IN ('Canada','France','Chine')),
     HomePage VARCHAR2(120)
 );
+
+DROP TABLE Suppliers;
+DROP SEQUENCE SupplierID_sq;
+
+
+/*
+
+Partie 1:
+? Avec l'aide des TIC (table instance chart) fournis, vous devez cr�er un script qui va cr�er
+les 8 tables dans le bon ordre. Le script devra �tre dans un fichier nomm�
+createTableNWIND.sql
+? �crire un script qui va d�tuire les 8 tables dans le bon ordre. Le script devra �tre dans un
+fichier nomm� dropTableNWIND.sql
+
+Partie 2:
+? �crire un script afin de cr�er les diff�rentes s�quences. Le script devra �tre dans un
+fichier nomm� createSeqNwind.sql
+? �crire un script qui va d�truire les s�quences. Le script devra �tre dans un fichier nomm�
+dropSeqNwind.sql
+
+--DROP TABLE nom_table;
+--RENAME ancien_nom to nouveau_nom
+--DROP SEQUENCE sequence_name;
+*/
 
 
 
