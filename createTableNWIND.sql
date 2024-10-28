@@ -137,23 +137,24 @@ CREATE TABLE Products(
     ProductName VARCHAR2(80)
         CONSTRAINT Products_ProductName_nn NOT NULL,
     CategoryID NUMBER
+        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID)
         CONSTRAINT Products_CategoryID_nn NOT NULL,
-        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID),
     SupplierID NUMBER
+        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID)
         CONSTRAINT Products_SupplierID_nn NOT NULL,
-        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID),
     QuantityPerUnit VARCHAR2(75),
     UnitPrice NUMBER
-        CONSTRAINT Products_UnitPrice_nn NOT NULL,
+        CONSTRAINT Products_UnitPrice_nn NOT NULL
         CONSTRAINT Products_UnitPrice_chk CHECK(UnitPrice > 0.10),
     UnitsInStock NUMBER
         CONSTRAINT Products_UnitsInStock_nn NOT NULL,
-        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel),
     ReorderLevel NUMBER 
         DEFAULT 5
         CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
     Discontinued CHAR(1)
-        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
+        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N')),
+        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel)
+
 );
 
 DROP TABLE Products;
@@ -204,20 +205,22 @@ DROP SEQUENCE SupplierID_sq;
 /*
 
 Partie 1:
-? Avec l'aide des TIC (table instance chart) fournis, vous devez créer un script qui va créer
-les 8 tables dans le bon ordre. Le script devra être dans un fichier nommé
+? Avec l'aide des TIC (table instance chart) fournis, vous devez crï¿½er un script qui va crï¿½er
+les 8 tables dans le bon ordre. Le script devra ï¿½tre dans un fichier nommï¿½
 createTableNWIND.sql
-? Écrire un script qui va détuire les 8 tables dans le bon ordre. Le script devra être dans un
-fichier nommé dropTableNWIND.sql
+? ï¿½crire un script qui va dï¿½tuire les 8 tables dans le bon ordre. Le script devra ï¿½tre dans un
+fichier nommï¿½ dropTableNWIND.sql
 
 Partie 2:
-? Écrire un script afin de créer les différentes séquences. Le script devra être dans un
-fichier nommé createSeqNwind.sql
-? Écrire un script qui va détruire les séquences. Le script devra être dans un fichier nommé
+? ï¿½crire un script afin de crï¿½er les diffï¿½rentes sï¿½quences. Le script devra ï¿½tre dans un
+fichier nommï¿½ createSeqNwind.sql
+? ï¿½crire un script qui va dï¿½truire les sï¿½quences. Le script devra ï¿½tre dans un fichier nommï¿½
 dropSeqNwind.sql
 
+--DROP TABLE nom_table;
+--RENAME ancien_nom to nouveau_nom
+--DROP SEQUENCE sequence_name;
 */
-
 
 //Question
 /*
