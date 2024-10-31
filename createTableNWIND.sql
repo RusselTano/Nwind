@@ -13,6 +13,9 @@ CREATE TABLE Categories(
         CONSTRAINT Categories_CategoryName_nn NOT NULL
 );
 
+DROP TABLE Categories;
+DROP SEQUENCE CategoriesID_seq;
+
 -- Customers
 
 CREATE SEQUENCE CustomerID_seq
@@ -32,6 +35,9 @@ CREATE TABLE Customers(
     Country VARCHAR2(60)
         CONSTRAINT Customers_Country_nn NOT NULL
 );
+
+DROP TABLE Customers;
+DROP SEQUENCE CustomerID_seq;
 
 -- Employees
 
@@ -66,6 +72,8 @@ CREATE TABLE Employees(
         REFERENCES Employees(EmployeeID)
 );
 
+DROP TABLE Employees;
+DROP SEQUENCE EmployeeID_seq;
 -- Orders
 
 CREATE SEQUENCE OrderID_seq
@@ -73,47 +81,52 @@ CREATE SEQUENCE OrderID_seq
     MAXVALUE 99999;
 
 CREATE TABLE Orders(
-    OderID NUMBER 
+    OrderID NUMBER 
         CONSTRAINT Orders_pk PRIMARY KEY,
     CustomerID NUMBER
-        CONSTRAINT Orders_CustomersID_nn NOT NULL,
-        CONSTRAINT Orders_CustomerID_fk REFERENCES Customers(CustomerID),
+        CONSTRAINT Orders_CustomerID_fk REFERENCES Customers(CustomerID)
+        CONSTRAINT Orders_CustomerID_nn NOT NULL,
     EmployeeID NUMBER
+        CONSTRAINT Orders_EmployeeID_fk REFERENCES Employees(EmployeeID)
         CONSTRAINT Orders_EmployeeID_nn NOT NULL,
-        CONSTRAINT  Orders_EmployeeID_fk REFERENCES Employees(EmployeeID),
-    OrderDate DATE
+    OrderDate DATE DEFAULT sysdate
         CONSTRAINT Orders_OrderDate_nn NOT NULL,
-        DEFAULT sysdate,
-    RequiredDate DATE
-        CONSTRAINT Orders_RequiredDate_chk CHECK(RequiredDate > OrderDate),
-    ShippedDate DATE
-        CONSTRAINT Orders_ShippedDate_chk CHECK(ShippedDate < RequiredDate),
+    RequiredDate DATE,
+    ShippedDate DATE,
     ShipVia NUMBER
+        CONSTRAINT Orders_ShipVia_fk REFERENCES Shippers(ShipperID)
         CONSTRAINT Orders_ShipVia_nn NOT NULL,
-        CONSTRAINT Orders_ShipVia_fk REFERENCES Shippers(ShipperID),
     Freight NUMBER
-        CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800)
+        CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800),
+        
+        CONSTRAINT Orders_RequiredDate_chk CHECK(RequiredDate > OrderDate),
+        CONSTRAINT Orders_ShippedDate_chk CHECK(ShippedDate < RequiredDate)
 );
+
+DROP TABLE Orders;
+DROP SEQUENCE OrderID_seq;
 
 -- OrdersDetails
 
 CREATE TABLE OrdersDetails(
     OrderID NUMBER
-        CONSTRAINT OrdersDetails_OrderID_fk REFERENCES Orders(OrdersID),
+        CONSTRAINT OrdersDetails_OrderID_fk REFERENCES Orders(OrderID),
     ProductID NUMBER
-        CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Product(ProductID),
+        CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Products(ProductID),
     UnitPrice NUMBER
+        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5)
         CONSTRAINT OrdersDetails_UnitPrice_nn NOT NULL,
-        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5),
     Quantity NUMBER
         CONSTRAINT OrdersDetails_Quantity_chk CHECK(Quantity > 0),
     Discount NUMBER
         CONSTRAINT OrdersDetails_Discount_chk CHECK(Discount >= 5 AND Discount <= 75)
 );
 
+DROP TABLE OrdersDetails;
+
 -- Products
 
-CREATE SEQUENCE productID
+CREATE SEQUENCE productID_seq
     START WITH 10
     INCREMENT BY 5
     MAXVALUE 10000;
@@ -124,24 +137,28 @@ CREATE TABLE Products(
     ProductName VARCHAR2(80)
         CONSTRAINT Products_ProductName_nn NOT NULL,
     CategoryID NUMBER
+        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID)
         CONSTRAINT Products_CategoryID_nn NOT NULL,
-        CONSTRAINT Products_CategoryID_fk REFERENCES Categories(CategoryID),
     SupplierID NUMBER
+        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID)
         CONSTRAINT Products_SupplierID_nn NOT NULL,
-        CONSTRAINT Products_SupplierID_fk REFERENCES Suppliers(SupplierID),
     QuantityPerUnit VARCHAR2(75),
     UnitPrice NUMBER
-        CONSTRAINT Products_UnitPrice_nn NOT NULL,
+        CONSTRAINT Products_UnitPrice_nn NOT NULL
         CONSTRAINT Products_UnitPrice_chk CHECK(UnitPrice > 0.10),
     UnitsInStock NUMBER
         CONSTRAINT Products_UnitsInStock_nn NOT NULL,
-        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel),
     ReorderLevel NUMBER 
         DEFAULT 5
         CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
     Discontinued CHAR(1)
-        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N'))
+        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N')),
+        CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel)
+
 );
+
+DROP TABLE Products;
+DROP SEQUENCE productID_seq;
 
 -- Shippers
 
@@ -157,6 +174,8 @@ CREATE TABLE Shippers(
         CONSTRAINT shippers_CompanyName_nn NOT NULL
 );
 
+DROP TABLE Shippers;
+DROP SEQUENCE ShipperID_seq;
 
 -- Suppliers
 
@@ -179,7 +198,32 @@ CREATE TABLE Suppliers(
     HomePage VARCHAR2(120)
 );
 
+DROP TABLE Suppliers;
+DROP SEQUENCE SupplierID_sq;
 
+SELECT * FROM products;
+SELECT * FROM OrdersDetails;
+
+
+/*
+
+Partie 1:
+? Avec l'aide des TIC (table instance chart) fournis, vous devez cr�er un script qui va cr�er
+les 8 tables dans le bon ordre. Le script devra �tre dans un fichier nomm�
+createTableNWIND.sql
+? �crire un script qui va d�tuire les 8 tables dans le bon ordre. Le script devra �tre dans un
+fichier nomm� dropTableNWIND.sql
+
+Partie 2:
+? �crire un script afin de cr�er les diff�rentes s�quences. Le script devra �tre dans un
+fichier nomm� createSeqNwind.sql
+? �crire un script qui va d�truire les s�quences. Le script devra �tre dans un fichier nomm�
+dropSeqNwind.sql
+
+--DROP TABLE nom_table;
+--RENAME ancien_nom to nouveau_nom
+--DROP SEQUENCE sequence_name;
+*/
 
 //Question
 /*
