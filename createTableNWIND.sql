@@ -81,26 +81,26 @@ CREATE SEQUENCE OrderID_seq
     MAXVALUE 99999;
 
 CREATE TABLE Orders(
-    OderID NUMBER 
+    OrderID NUMBER 
         CONSTRAINT Orders_pk PRIMARY KEY,
     CustomerID NUMBER
-        CONSTRAINT Orders_CustomersID_nn NOT NULL,
-        CONSTRAINT Orders_CustomerID_fk REFERENCES Customers(CustomerID),
+        CONSTRAINT Orders_CustomerID_fk REFERENCES Customers(CustomerID)
+        CONSTRAINT Orders_CustomerID_nn NOT NULL,
     EmployeeID NUMBER
+        CONSTRAINT Orders_EmployeeID_fk REFERENCES Employees(EmployeeID)
         CONSTRAINT Orders_EmployeeID_nn NOT NULL,
-        CONSTRAINT  Orders_EmployeeID_fk REFERENCES Employees(EmployeeID),
-    OrderDate DATE
+    OrderDate DATE DEFAULT sysdate
         CONSTRAINT Orders_OrderDate_nn NOT NULL,
-        DEFAULT sysdate,
-    RequiredDate DATE
-        CONSTRAINT Orders_RequiredDate_chk CHECK(RequiredDate > OrderDate),
-    ShippedDate DATE
-        CONSTRAINT Orders_ShippedDate_chk CHECK(ShippedDate < RequiredDate),
+    RequiredDate DATE,
+    ShippedDate DATE,
     ShipVia NUMBER
+        CONSTRAINT Orders_ShipVia_fk REFERENCES Shippers(ShipperID)
         CONSTRAINT Orders_ShipVia_nn NOT NULL,
-        CONSTRAINT Orders_ShipVia_fk REFERENCES Shippers(ShipperID),
     Freight NUMBER
-        CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800)
+        CONSTRAINT Orders_Freight_chk CHECK(Freight >= 30 AND Freight < 800),
+        
+        CONSTRAINT Orders_RequiredDate_chk CHECK(RequiredDate > OrderDate),
+        CONSTRAINT Orders_ShippedDate_chk CHECK(ShippedDate < RequiredDate)
 );
 
 DROP TABLE Orders;
@@ -110,12 +110,12 @@ DROP SEQUENCE OrderID_seq;
 
 CREATE TABLE OrdersDetails(
     OrderID NUMBER
-        CONSTRAINT OrdersDetails_OrderID_fk REFERENCES Orders(OrdersID),
+        CONSTRAINT OrdersDetails_OrderID_fk REFERENCES Orders(OrderID),
     ProductID NUMBER
-        CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Product(ProductID),
+        CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Products(ProductID),
     UnitPrice NUMBER
+        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5)
         CONSTRAINT OrdersDetails_UnitPrice_nn NOT NULL,
-        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5),
     Quantity NUMBER
         CONSTRAINT OrdersDetails_Quantity_chk CHECK(Quantity > 0),
     Discount NUMBER
@@ -200,6 +200,9 @@ CREATE TABLE Suppliers(
 
 DROP TABLE Suppliers;
 DROP SEQUENCE SupplierID_sq;
+
+SELECT * FROM products;
+SELECT * FROM OrdersDetails;
 
 
 /*
