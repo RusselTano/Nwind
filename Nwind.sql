@@ -74,6 +74,7 @@ CREATE TABLE Employees(
 
 DROP TABLE Employees;
 DROP SEQUENCE EmployeeID_seq;
+
 -- Orders
 
 CREATE SEQUENCE OrderID_seq
@@ -152,7 +153,7 @@ CREATE TABLE Products(
         DEFAULT 5
         CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
     Discontinued CHAR(1)
-        CONSTRAINT Product_Discontinued_chk CHECK(discontinued IN ('O','N')),
+    CONSTRAINT Product_Discontinued_chk CHECK(UPPER(discontinued) IN ('O', 'N'))
         CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel)
 
 );
@@ -179,7 +180,7 @@ DROP SEQUENCE ShipperID_seq;
 
 -- Suppliers
 
-CREATE SEQUENCE SupplierID_sq
+CREATE SEQUENCE SupplierID_seq
     START WITH 1
     INCREMENT BY 1
     MAXVALUE 400;
@@ -199,7 +200,7 @@ CREATE TABLE Suppliers(
 );
 
 DROP TABLE Suppliers;
-DROP SEQUENCE SupplierID_sq;
+DROP SEQUENCE SupplierID_seq;
 
 SELECT * FROM products;
 SELECT * FROM OrdersDetails;
