@@ -1,0 +1,7 @@
+DROP SEQUENCE CategoriesID_seq;
+DROP SEQUENCE CustomerID_seq;
+DROP SEQUENCE EmployeeID_seq;
+DROP SEQUENCE OrderID_seq;
+DROP SEQUENCE productID_seq;
+DROP SEQUENCE ShipperID_seq;
+DROP SEQUENCE SupplierID_seq;

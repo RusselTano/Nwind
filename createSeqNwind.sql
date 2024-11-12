@@ -1,0 +1,41 @@
+-- Categories
+CREATE SEQUENCE CategoriesID_seq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 200;
+
+
+-- Customers
+CREATE SEQUENCE CustomerID_seq
+    START WITH 100
+    INCREMENT BY 5
+    MAXVALUE 5000;
+
+-- Employees
+CREATE SEQUENCE EmployeeID_seq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 555;
+
+-- Orders
+CREATE SEQUENCE OrderID_seq
+    START WITH 1
+    MAXVALUE 99999;
+
+-- Products
+CREATE SEQUENCE productID_seq
+    START WITH 10
+    INCREMENT BY 5
+    MAXVALUE 10000;
+
+-- Shippers
+CREATE SEQUENCE ShipperID_seq
+    START WITH 10
+    INCREMENT BY 10
+    MAXVALUE 2000;
+
+-- Suppliers
+CREATE SEQUENCE SupplierID_seq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 400;

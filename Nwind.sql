@@ -115,7 +115,7 @@ CREATE TABLE OrdersDetails(
     ProductID NUMBER
         CONSTRAINT OrdersDetails_ProductID_fk REFERENCES Products(ProductID),
     UnitPrice NUMBER
-        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.5)
+        CONSTRAINT OrdersDetails_UnitPrice_chk CHECK(UnitPrice > 0.25)
         CONSTRAINT OrdersDetails_UnitPrice_nn NOT NULL,
     Quantity NUMBER
         CONSTRAINT OrdersDetails_Quantity_chk CHECK(Quantity > 0),
@@ -153,9 +153,8 @@ CREATE TABLE Products(
         DEFAULT 5
         CONSTRAINT Products_ReorderLevel_chk CHECK(ReorderLevel > 0),
     Discontinued CHAR(1)
-    CONSTRAINT Product_Discontinued_chk CHECK(UPPER(discontinued) IN ('O', 'N'))
+        CONSTRAINT Product_Discontinued_chk CHECK (discontinued IN ('O', 'N')),
         CONSTRAINT Products_UnitsInStock_chk CHECK(UnitsInStock >= ReorderLevel)
-
 );
 
 DROP TABLE Products;
